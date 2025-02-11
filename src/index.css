@@ -1,0 +1,8 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, 'CustomFont', sans-serif;
+}
+
+@font-face {
+  font-family: "CustomFont";
+  src: url('./assets/fonts/RougeScript-Regular.ttf');
+}
