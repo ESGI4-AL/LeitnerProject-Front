@@ -1,6 +1,7 @@
 .app-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   position: relative;
   /*min-height: 100vh;*/
   z-index: 2;
