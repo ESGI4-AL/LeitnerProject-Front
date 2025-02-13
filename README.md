@@ -14,6 +14,20 @@ $ npm install
 $ npm start
 ```
 
+## Run tests
+
+```bash
+$ npm test
+```
+
+```bash
+$ npm run test:watch
+```
+
+```bash
+$ npm run test:coverage
+```
+
 ## Built with
 
 [![React][React.js]][React-url]
