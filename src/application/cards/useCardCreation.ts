@@ -24,7 +24,7 @@ export const useCardCreation = () => {
   const cardAdapter = new CardAdapter();
 
   useEffect(() => {
-    let timer: number;
+    let timer: ReturnType<typeof setTimeout>;
 
     if (state.error || state.success) {
       timer = setTimeout(() => {
