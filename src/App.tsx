@@ -1,11 +1,8 @@
 import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import HomePage from './pages/HomePage/HomePage'
-import AddCardPage from './pages/AddCardPage/AddCardPage';
-import ViewCardsPage from './pages/ViewCardsPage/ViewCardsPage';
-import backgroundImg from './assets/img/background.jpg'
-import QuizPage from './pages/QuizPage/QuizPage';
+import { BrowserRouter as Router } from 'react-router-dom';
+import backgroundImg from './shared/assets/img/background.jpg'
+import Navbar from './presentation/components/Navbar/Navbar';
+import { AppRoutes } from './presentation/routes/AppRoutes';
 
 function App() {
   return (
@@ -15,12 +12,7 @@ function App() {
         <div className="overlay"></div>
         <Navbar />
         <div className="content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/add-card" element={<AddCardPage />} />
-            <Route path="/view-cards" element={<ViewCardsPage />} />
-            <Route path="/quiz" element={<QuizPage />} />
-          </Routes>
+          <AppRoutes />
         </div>
       </div>
     </Router>

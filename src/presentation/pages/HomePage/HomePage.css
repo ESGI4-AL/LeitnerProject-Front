@@ -1,0 +1,25 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  gap: 2rem;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 10px;
+  margin-top: 50px;
+}
+
+.title-container {
+  padding: 2rem 4rem;
+  text-align: center;
+}
+
+.title {
+  font-family: 'CustomFont', sans-serif;
+  font-size: 150px;
+  color: #ebe5ff;
+  margin: 0;
+}

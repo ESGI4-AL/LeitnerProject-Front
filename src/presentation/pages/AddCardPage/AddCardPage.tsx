@@ -1,9 +1,10 @@
+import CreateCardForm from '../../components/Cards/CreateCardForm/CreateCardForm';
 import './AddCardPage.css';
 
 const AddCardPage = () => {
   return (
     <div className="AddCardPage">
-      <h1>Add Card Page</h1>
+      <CreateCardForm />
     </div>
   )
 }
