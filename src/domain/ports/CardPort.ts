@@ -8,4 +8,5 @@ export type CardFormData = {
 
 export interface CardPort {
   createCard(data: CardFormData): Promise<Card>;
+  getAllCards(): Promise<Card[]>;
 }
