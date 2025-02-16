@@ -1,11 +1,11 @@
 import './ViewCardsPage.css';
+import ViewCard from  '../../components/Cards/ViewCard/ViewCard';
 
 const ViewCardsPage = () => {
   return (
     <div className="ViewCardsPage">
-      <h1>View Cards Page</h1>
+      <ViewCard />
     </div>
   )
 }
-
 export default ViewCardsPage;
