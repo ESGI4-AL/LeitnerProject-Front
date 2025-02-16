@@ -39,7 +39,7 @@ describe('CardAdapter', () => {
       const result = await cardAdapter.createCard(mockCardData);
 
       expect(fetchMock).toHaveBeenCalledWith(
-        'http://localhost:3000/cards',
+        'http://localhost:8080/cards',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -59,7 +59,7 @@ describe('CardAdapter', () => {
       await cardAdapter.createCard(mockCardData);
 
       const fetchCall = fetchMock.mock.calls[0][0];
-      expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
+      expect(fetchCall).toMatch(/^http:\/\/localhost:8080/);
     });
   });
 
@@ -78,7 +78,7 @@ describe('CardAdapter', () => {
       const result = await cardAdapter.getAllCards();
 
       expect(fetchMock).toHaveBeenCalledWith(
-        'http://localhost:3000/cards',
+        'http://localhost:8080/cards',
         {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
@@ -126,7 +126,7 @@ describe('CardAdapter', () => {
       const result = await cardAdapter.getTodayCards();
 
       expect(fetchMock).toHaveBeenCalledWith(
-        'http://localhost:3000/cards/quizz'
+        'http://localhost:8080/cards/quizz'
       );
       expect(result).toEqual(mockTodayCards);
     });
@@ -151,7 +151,7 @@ describe('CardAdapter', () => {
       await cardAdapter.getTodayCards();
 
       const fetchCall = fetchMock.mock.calls[0][0];
-      expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
+      expect(fetchCall).toMatch(/^http:\/\/localhost:8080/);
     });
   });
 
@@ -167,7 +167,7 @@ describe('CardAdapter', () => {
       await cardAdapter.submitAnswer(mockCardId, mockIsValid);
 
       expect(fetchMock).toHaveBeenCalledWith(
-        'http://localhost:3000/cards/123/answer',
+        'http://localhost:8080/cards/123/answer',
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -195,7 +195,7 @@ describe('CardAdapter', () => {
       await cardAdapter.submitAnswer(mockCardId, mockIsValid);
 
       const fetchCall = fetchMock.mock.calls[0][0];
-      expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
+      expect(fetchCall).toMatch(/^http:\/\/localhost:8080/);
     });
   });
 });

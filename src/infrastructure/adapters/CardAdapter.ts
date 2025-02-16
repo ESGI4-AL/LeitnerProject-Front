@@ -2,7 +2,7 @@ import { Card } from "../../domain/models/Card";
 import { CardPort } from "../../domain/ports/CardPort";
 
 export class CardAdapter implements CardPort {
-  private baseUrl = 'http://localhost:3000'; // mise à jour a faire en 8000
+  private baseUrl = 'http://localhost:8080';
 
   async createCard(data: { question: string; answer: string; tag?: string }): Promise<Card> {
     const response = await fetch(`${this.baseUrl}/cards`, {
