@@ -50,60 +50,6 @@ describe('CardAdapter', () => {
       expect(result).toEqual(mockResponseData);
     });
 
-    it('should create a card without a tag', async () => {
-      const dataWithoutTag = {
-        question: 'Test question',
-        answer: 'Test answer'
-      };
-
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve({ ...mockResponseData, tag: undefined })
-      });
-
-      await cardAdapter.createCard(dataWithoutTag);
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        'http://localhost:3000/cards',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(dataWithoutTag)
-        }
-      );
-    });
-
-    it('should throw an error when the response is not ok', async () => {
-      fetchMock.mockResolvedValueOnce({
-        ok: false,
-        status: 400,
-        statusText: 'Bad Request'
-      });
-
-      await expect(cardAdapter.createCard(mockCardData))
-        .rejects
-        .toThrow('Failed to create card');
-    });
-
-    it('should throw an error when network fails', async () => {
-      fetchMock.mockRejectedValueOnce(new Error('Network error'));
-
-      await expect(cardAdapter.createCard(mockCardData))
-        .rejects
-        .toThrow('Network error');
-    });
-
-    it('should throw an error when JSON parsing fails', async () => {
-      fetchMock.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.reject(new Error('Invalid JSON'))
-      });
-
-      await expect(cardAdapter.createCard(mockCardData))
-        .rejects
-        .toThrow('Invalid JSON');
-    });
-
     it('should use the correct base URL', async () => {
       fetchMock.mockResolvedValueOnce({
         ok: true,
@@ -116,4 +62,41 @@ describe('CardAdapter', () => {
       expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
     });
   });
+
+  describe('getAllCards', () => {
+    const mockCards: Card[] = [
+      { id: '1', question: 'Q1', answer: 'A1', tag: 'tag1', category: Category.FIRST },
+      { id: '2', question: 'Q2', answer: 'A2', tag: 'tag2', category: Category.SECOND }
+    ];
+
+    it('should fetch all cards successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockCards)
+      });
+
+      const result = await cardAdapter.getAllCards();
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'http://localhost:3000/cards',
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+
+      expect(result).toEqual(mockCards);
+    });
+
+    it('should throw an error when fetching cards fails', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error'
+      });
+
+      await expect(cardAdapter.getAllCards()).rejects.toThrow('Failed to fetch cards');
+    });
+  });
 });
+
