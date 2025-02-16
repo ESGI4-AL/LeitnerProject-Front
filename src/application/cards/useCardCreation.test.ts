@@ -2,17 +2,16 @@ import { renderHook, act } from '@testing-library/react';
 import { useCardCreation } from './useCardCreation';
 import { CardAdapter } from '../../infrastructure/adapters/CardAdapter';
 
-// Mock the CardAdapter
 jest.mock('../../infrastructure/adapters/CardAdapter');
 
 describe('useCardCreation', () => {
   let mockCreateCard: jest.Mock;
 
   beforeEach(() => {
-    // Clear all mocks before each test
+    
     jest.clearAllMocks();
 
-    // Setup the mock implementation for CardAdapter
+  
     mockCreateCard = jest.fn();
     (CardAdapter as jest.Mock).mockImplementation(() => ({
       createCard: mockCreateCard
@@ -48,14 +47,14 @@ describe('useCardCreation', () => {
     mockCreateCard.mockResolvedValueOnce({});
     const { result } = renderHook(() => useCardCreation());
 
-    // Set some form data
+  
     act(() => {
       result.current.handleChange({
         target: { name: 'question', value: 'Test Question' }
       } as React.ChangeEvent<HTMLInputElement>);
     });
 
-    // Call createCard
+ 
     await act(async () => {
       await result.current.createCard();
     });
@@ -96,14 +95,14 @@ describe('useCardCreation', () => {
 
     const { result } = renderHook(() => useCardCreation());
 
-    // Trigger an error
+   
     await act(async () => {
       await result.current.createCard();
     });
 
     expect(result.current.error).toBe('Test error');
 
-    // Fast-forward 5 seconds
+   
     act(() => {
       jest.advanceTimersByTime(5000);
     });
