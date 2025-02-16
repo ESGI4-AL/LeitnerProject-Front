@@ -16,13 +16,22 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   onClick,
   children,
-  to
+  to,
+  disabled = false,
 }) => {
   if (to) {
+    if (disabled) {
+      return (
+        <span className={`base-button ${className} disabled`}>
+          {children}
+        </span>
+      );
+    }
     return (
       <Link
         to={to}
         className={`base-button ${className}`}
+        data-testid="button-link"
       >
         {children}
       </Link>
@@ -33,6 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       className={`button ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
