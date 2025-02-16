@@ -98,5 +98,104 @@ describe('CardAdapter', () => {
       await expect(cardAdapter.getAllCards()).rejects.toThrow('Failed to fetch cards');
     });
   });
-});
 
+  describe('getTodayCards', () => {
+    const mockTodayCards: Card[] = [
+      {
+        id: '1',
+        question: 'Today Q1',
+        answer: 'A1',
+        tag: 'tag1',
+        category: Category.FIRST
+      },
+      {
+        id: '2',
+        question: 'Today Q2',
+        answer: 'A2',
+        tag: 'tag2',
+        category: Category.SECOND
+      }
+    ];
+
+    it('should fetch today\'s cards successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockTodayCards)
+      });
+
+      const result = await cardAdapter.getTodayCards();
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'http://localhost:3000/cards/quizz'
+      );
+      expect(result).toEqual(mockTodayCards);
+    });
+
+    it('should throw an error when fetching today\'s cards fails', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error'
+      });
+
+      await expect(cardAdapter.getTodayCards())
+        .rejects.toThrow('Failed to fetch today\'s cards');
+    });
+
+    it('should use the correct base URL', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockTodayCards)
+      });
+
+      await cardAdapter.getTodayCards();
+
+      const fetchCall = fetchMock.mock.calls[0][0];
+      expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
+    });
+  });
+
+  describe('submitAnswer', () => {
+    const mockCardId = '123';
+    const mockIsValid = true;
+
+    it('should submit answer successfully', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true
+      });
+
+      await cardAdapter.submitAnswer(mockCardId, mockIsValid);
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        'http://localhost:3000/cards/123/answer',
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ isValid: mockIsValid })
+        }
+      );
+    });
+
+    it('should throw an error when submitting answer fails', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error'
+      });
+
+      await expect(cardAdapter.submitAnswer(mockCardId, mockIsValid))
+        .rejects.toThrow('Failed to submit answer');
+    });
+
+    it('should use the correct base URL', async () => {
+      fetchMock.mockResolvedValueOnce({
+        ok: true
+      });
+
+      await cardAdapter.submitAnswer(mockCardId, mockIsValid);
+
+      const fetchCall = fetchMock.mock.calls[0][0];
+      expect(fetchCall).toMatch(/^http:\/\/localhost:3000/);
+    });
+  });
+});
